@@ -1,4 +1,4 @@
-package com.example.questcreator
+package com.example.questcreator.general
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

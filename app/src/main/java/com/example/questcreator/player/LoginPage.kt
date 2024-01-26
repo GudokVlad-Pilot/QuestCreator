@@ -1,4 +1,4 @@
-package com.example.questcreator
+package com.example.questcreator.player
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import com.example.questcreator.ui.theme.QuestCreatorTheme
 
 @Composable
-fun CreatorScreen(navController: NavController) {
+fun LoginScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -24,7 +24,7 @@ fun CreatorScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Creator page",
+            text = "Login page",
         )
     }
 }
@@ -35,9 +35,9 @@ fun CreatorScreen(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewCreator() {
+fun PreviewLogin() {
     QuestCreatorTheme() {
         val context = LocalContext.current
-        CreatorScreen(navController = NavController(context))
+        LoginScreen(navController = NavController(context))
     }
 }

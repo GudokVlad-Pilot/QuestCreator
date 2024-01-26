@@ -10,9 +10,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.questcreator.CreatorScreen
-import com.example.questcreator.LandingScreen
-import com.example.questcreator.LoginScreen
+import com.example.questcreator.creator.CreatorScreen
+import com.example.questcreator.general.LandingScreen
+import com.example.questcreator.player.LoginScreen
 
 @Composable
 fun Navigation(navController: NavHostController = rememberNavController()) {
