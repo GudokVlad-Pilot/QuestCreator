@@ -44,7 +44,7 @@ fun LandingScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(30.dp))
         ExtendedFloatingActionButton(
             onClick = {
-                navController.navigate(Screen.CreatorScreen.route)
+                navController.navigate(Screen.CreatorLoginScreen.route)
             },
             content = { Text("I am creator", fontSize = 24.sp, color = Color(0xFFC9CBD5),) },
             modifier = Modifier

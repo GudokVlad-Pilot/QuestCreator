@@ -1,6 +1,5 @@
 package com.example.questcreator.creator
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,9 +20,9 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,8 +31,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,14 +42,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.questcreator.navigation.Screen
 import com.example.questcreator.ui.theme.QuestCreatorTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreatorScreen(navController: NavController) {
+fun CreatorSignUpScreen(navController: NavController) {
     var username by rememberSaveable {mutableStateOf("")}
     var password by rememberSaveable {mutableStateOf("")}
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    var passwordConfirm by rememberSaveable {mutableStateOf("")}
+    var passwordConfirmVisible by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
@@ -61,38 +63,43 @@ fun CreatorScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Creator page",
+                text = "Sign Up",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 46.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                fontStyle = FontStyle.Italic,
             )
             Spacer(modifier = Modifier.height(60.dp))
-            TextField(
+            OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 ),
                 singleLine = true,
-                placeholder = {
-                    Text("Username", fontSize = 16.sp)
+                label = {
+                    Text("Email", fontSize = 16.sp)
                 },
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.imePadding()
             )
             Spacer(modifier = Modifier.height(20.dp))
-            TextField(
+            OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 ),
                 singleLine = true,
-                placeholder = {
-                    Text("Password", fontSize = 16.sp)
+                label = {
+                    Text("Create password", fontSize = 16.sp)
                 },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -106,28 +113,58 @@ fun CreatorScreen(navController: NavController) {
                         Icon(imageVector = image, description)
                     }
                 },
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.imePadding()
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Forgot password?",
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.clickable {
-                    Toast.makeText(context, "In progress...", Toast.LENGTH_SHORT).show()
-                }
+            OutlinedTextField(
+                value = passwordConfirm,
+                onValueChange = { passwordConfirm = it },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+                    disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
+                ),
+                singleLine = true,
+                label = {
+                    Text("Confirm password", fontSize = 16.sp)
+                },
+                visualTransformation = if (passwordConfirmVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    val image = if (passwordConfirmVisible)
+                        Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+                    val description = if (passwordConfirmVisible) "Hide password" else "Show password"
+
+                    IconButton(onClick = { passwordConfirmVisible = !passwordConfirmVisible }) {
+                        Icon(imageVector = image, description)
+                    }
+                },
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.imePadding()
             )
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             ExtendedFloatingActionButton(
                 onClick = {
                     //TODO write login logic
                 },
-                content = { Text("Login", fontSize = 24.sp, color = MaterialTheme.colorScheme.onPrimary) },
+                content = { Text("Create", fontSize = 24.sp, color = MaterialTheme.colorScheme.onPrimary) },
                 containerColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .wrapContentWidth()
                     .height(50.dp),
+            )
+            Spacer(modifier = Modifier.height(60.dp))
+            Text(text = "Already have an account? Login",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.clickable {
+                    navController.navigate(Screen.CreatorLoginScreen.route)
+                },
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }
@@ -142,6 +179,6 @@ fun CreatorScreen(navController: NavController) {
 fun PreviewCreator() {
     QuestCreatorTheme() {
         val context = LocalContext.current
-        CreatorScreen(navController = NavController(context))
+        CreatorSignUpScreen(navController = NavController(context))
     }
 }

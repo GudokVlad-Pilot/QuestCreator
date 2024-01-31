@@ -10,7 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.questcreator.creator.CreatorScreen
+import com.example.questcreator.creator.CreatorLoginScreen
+import com.example.questcreator.creator.CreatorSignUpScreen
 import com.example.questcreator.general.LandingScreen
 import com.example.questcreator.player.LoginScreen
 
@@ -23,8 +24,11 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
         composable(route = Screen.LoginScreen.route) {
             LoginScreen(navController = navController)
         }
-        composable(route = Screen.CreatorScreen.route) {
-            CreatorScreen(navController = navController)
+        composable(route = Screen.CreatorLoginScreen.route) {
+            CreatorLoginScreen(navController = navController)
+        }
+        composable(route = Screen.CreatorSignUpScreen.route) {
+            CreatorSignUpScreen(navController = navController)
         }
     }
 }
