@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -53,7 +54,20 @@ fun CreatorSignUpScreen(navController: NavController) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     var passwordConfirm by rememberSaveable {mutableStateOf("")}
     var passwordConfirmVisible by rememberSaveable { mutableStateOf(false) }
+    var isErrorMin by rememberSaveable { mutableStateOf(false) }
+    var isErrorConfirm by rememberSaveable { mutableStateOf(false) }
+    val charMin = 8
     val context = LocalContext.current
+
+//    // Rules for the password
+//    val charMin = 8
+//    fun validateMin(text: String) {
+//        isErrorMin = text.length < charMin
+//    }
+//    fun validateConfirm(text: String, textConfirm: String) {
+//        isErrorConfirm = text != textConfirm
+//    }
+
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
             modifier = Modifier
@@ -91,6 +105,16 @@ fun CreatorSignUpScreen(navController: NavController) {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
+                isError = isErrorMin,
+                supportingText = {
+                    if (isErrorMin) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Limit: ${password.length}/$charMin",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.onPrimary,
                     focusedIndicatorColor = MaterialTheme.colorScheme.primary,
@@ -127,6 +151,16 @@ fun CreatorSignUpScreen(navController: NavController) {
                     disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 ),
                 singleLine = true,
+                isError = isErrorConfirm,
+                supportingText = {
+                    if (isErrorConfirm) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Passwords are not equal",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
                 label = {
                     Text("Confirm password", fontSize = 16.sp)
                 },
@@ -145,10 +179,12 @@ fun CreatorSignUpScreen(navController: NavController) {
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.imePadding()
             )
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             ExtendedFloatingActionButton(
                 onClick = {
-                    //TODO write login logic
+                    isErrorMin = password.length < charMin
+                    isErrorConfirm = password != passwordConfirm
+                          // TODO write the create account logic
                 },
                 content = { Text("Create", fontSize = 24.sp, color = MaterialTheme.colorScheme.onPrimary) },
                 containerColor = MaterialTheme.colorScheme.primary,

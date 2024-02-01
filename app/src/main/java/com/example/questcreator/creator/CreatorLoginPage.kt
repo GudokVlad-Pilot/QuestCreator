@@ -43,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.questcreator.elements.LabeledCheckbox
 import com.example.questcreator.navigation.Screen
 import com.example.questcreator.ui.theme.QuestCreatorTheme
 
@@ -116,16 +117,12 @@ fun CreatorLoginScreen(navController: NavController) {
                 modifier = Modifier.imePadding()
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Forgot password?",
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.clickable {
-                    Toast.makeText(context, "In progress...", Toast.LENGTH_SHORT).show()
-                },
-                color = MaterialTheme.colorScheme.secondary
+            LabeledCheckbox(
+                label = "Remember Me",
+                onCheckChanged = { },
+                isChecked = false
             )
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             ExtendedFloatingActionButton(
                 onClick = {
                     //TODO write login logic
@@ -136,7 +133,17 @@ fun CreatorLoginScreen(navController: NavController) {
                     .wrapContentWidth()
                     .height(50.dp),
             )
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text = "Forgot password?",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.clickable {
+                    Toast.makeText(context, "In progress...", Toast.LENGTH_SHORT).show()
+                },
+                color = MaterialTheme.colorScheme.secondary
+            )
+            Spacer(modifier = Modifier.height(40.dp))
             Text(text = "Do not have an account? Sign up",
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
