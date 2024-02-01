@@ -56,17 +56,10 @@ fun CreatorSignUpScreen(navController: NavController) {
     var passwordConfirmVisible by rememberSaveable { mutableStateOf(false) }
     var isErrorMin by rememberSaveable { mutableStateOf(false) }
     var isErrorConfirm by rememberSaveable { mutableStateOf(false) }
+    var isErrorUsername by rememberSaveable { mutableStateOf(false) }
+    val emailRegex = Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\$")
     val charMin = 8
     val context = LocalContext.current
-
-//    // Rules for the password
-//    val charMin = 8
-//    fun validateMin(text: String) {
-//        isErrorMin = text.length < charMin
-//    }
-//    fun validateConfirm(text: String, textConfirm: String) {
-//        isErrorConfirm = text != textConfirm
-//    }
 
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(
@@ -95,6 +88,16 @@ fun CreatorSignUpScreen(navController: NavController) {
                     disabledIndicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                 ),
                 singleLine = true,
+                isError = isErrorUsername,
+                supportingText = {
+                    if (isErrorUsername) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Please enter valid email",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
                 label = {
                     Text("Email", fontSize = 16.sp)
                 },
@@ -184,7 +187,10 @@ fun CreatorSignUpScreen(navController: NavController) {
                 onClick = {
                     isErrorMin = password.length < charMin
                     isErrorConfirm = password != passwordConfirm
-                          // TODO write the create account logic
+                    isErrorUsername = !username.contains(emailRegex)
+                    if (!isErrorConfirm && !isErrorMin && !isErrorUsername) {
+                        navController.navigate(Screen.CreatorConfirmationScreen.route)
+                    }
                 },
                 content = { Text("Create", fontSize = 24.sp, color = MaterialTheme.colorScheme.onPrimary) },
                 containerColor = MaterialTheme.colorScheme.primary,
