@@ -15,9 +15,10 @@ import com.example.questcreator.creator.CreatorLoginScreen
 import com.example.questcreator.creator.CreatorSignUpScreen
 import com.example.questcreator.general.LandingScreen
 import com.example.questcreator.player.LoginScreen
+import com.example.questcreator.user_database.UserState
 
 @Composable
-fun Navigation(navController: NavHostController = rememberNavController()) {
+fun Navigation(navController: NavHostController = rememberNavController(), state: UserState) {
     NavHost(navController = navController, startDestination = Screen.LandingScreen.route) {
         composable(route = Screen.LandingScreen.route) {
             LandingScreen(navController = navController)
