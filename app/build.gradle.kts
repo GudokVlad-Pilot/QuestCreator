@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -72,4 +73,15 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0")
     implementation("androidx.compose.material:material-icons-extended")
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.2.1")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
+
 }
