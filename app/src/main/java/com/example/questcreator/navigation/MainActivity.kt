@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             QuestCreatorTheme {
                 val state by viewModel.state.collectAsState()
-                Navigation(rememberNavController(),state)
+                Navigation(rememberNavController(),state, viewModel)
             }
         }
     }

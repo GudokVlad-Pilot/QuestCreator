@@ -45,11 +45,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.questcreator.navigation.Screen
 import com.example.questcreator.ui.theme.QuestCreatorTheme
+import com.example.questcreator.user_database.UserState
+import com.example.questcreator.user_database.UsersEvent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreatorSignUpScreen(navController: NavController) {
+fun CreatorSignUpScreen(state: UserState, navController: NavController, onEvent: (UsersEvent) -> Unit) {
     var username by rememberSaveable {mutableStateOf("")}
     var password by rememberSaveable {mutableStateOf("")}
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
@@ -80,8 +82,8 @@ fun CreatorSignUpScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(60.dp))
             OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
+                value = state.username.value,
+                onValueChange = { state.username.value = it },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.onPrimary,
                     focusedIndicatorColor = MaterialTheme.colorScheme.primary,
@@ -107,8 +109,8 @@ fun CreatorSignUpScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
+                value = state.password.value,
+                onValueChange = { state.password.value = it },
                 isError = isErrorMin,
                 supportingText = {
                     if (isErrorMin) {
@@ -189,9 +191,13 @@ fun CreatorSignUpScreen(navController: NavController) {
                     isErrorMin = password.length < charMin
                     isErrorConfirm = password != passwordConfirm
                     isErrorUsername = !username.contains(emailRegex)
-                    if (!isErrorConfirm && !isErrorMin && !isErrorUsername) {
+//                    if (!isErrorConfirm && !isErrorMin && !isErrorUsername) {
                         navController.navigate(Screen.CreatorConfirmationScreen.route)
-                    }
+                        onEvent(UsersEvent.SaveUser(
+                            username = state.username.value,
+                            password = state.password.value
+                        ))
+//                    }
                 },
                 content = { Text("Create", fontSize = 24.sp, color = MaterialTheme.colorScheme.onPrimary) },
                 containerColor = MaterialTheme.colorScheme.primary,
@@ -222,6 +228,15 @@ fun CreatorSignUpScreen(navController: NavController) {
 fun PreviewCreator() {
     QuestCreatorTheme() {
         val context = LocalContext.current
-        CreatorSignUpScreen(navController = NavController(context))
+
+        // Sample UserState for the preview
+        val sampleUserState = UserState(/* initialize with desired values */)
+
+        // Pass the sample state to the CreatorSignUpScreen
+        CreatorSignUpScreen(
+            state = sampleUserState,
+            navController = NavController(context),
+            onEvent = { /* handle UsersEvent in preview if needed */ }
+        )
     }
 }

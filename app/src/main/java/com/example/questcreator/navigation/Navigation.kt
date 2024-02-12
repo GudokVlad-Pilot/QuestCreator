@@ -16,9 +16,10 @@ import com.example.questcreator.creator.CreatorSignUpScreen
 import com.example.questcreator.general.LandingScreen
 import com.example.questcreator.player.LoginScreen
 import com.example.questcreator.user_database.UserState
+import com.example.questcreator.user_database.UsersViewModel
 
 @Composable
-fun Navigation(navController: NavHostController = rememberNavController(), state: UserState) {
+fun Navigation(navController: NavHostController = rememberNavController(), state: UserState, viewModel: UsersViewModel) {
     NavHost(navController = navController, startDestination = Screen.LandingScreen.route) {
         composable(route = Screen.LandingScreen.route) {
             LandingScreen(navController = navController)
@@ -30,10 +31,16 @@ fun Navigation(navController: NavHostController = rememberNavController(), state
             CreatorLoginScreen(navController = navController)
         }
         composable(route = Screen.CreatorSignUpScreen.route) {
-            CreatorSignUpScreen(navController = navController)
+            CreatorSignUpScreen(
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent)
         }
         composable(route = Screen.CreatorConfirmationScreen.route) {
-            CreatorConfirmationScreen(navController = navController)
+            CreatorConfirmationScreen(
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent)
         }
     }
 }
